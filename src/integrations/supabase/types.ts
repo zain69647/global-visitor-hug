@@ -14,13 +14,43 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      visitor_counts: {
+        Row: {
+          count: number
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          count?: number
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          count?: number
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_visit_counts: {
+        Args: never
+        Returns: {
+          global_count: number
+          today_count: number
+        }[]
+      }
+      increment_visit: {
+        Args: never
+        Returns: {
+          global_count: number
+          today_count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
