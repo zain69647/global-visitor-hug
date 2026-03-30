@@ -47,6 +47,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        counter: {
+          glow: "hsl(var(--counter-glow))",
+          bg: "hsl(var(--counter-bg))",
+          text: "hsl(var(--counter-text))",
+          sub: "hsl(var(--counter-sub))",
+        },
+          foreground: "hsl(var(--card-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
