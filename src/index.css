@@ -108,3 +108,53 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .counter-card {
+    @apply flex items-center gap-4 rounded-2xl px-8 py-5 shadow-xl transition-all duration-300;
+    background: hsl(var(--counter-bg));
+    border: 1px solid hsl(var(--counter-glow) / 0.2);
+  }
+
+  .counter-card:hover {
+    border-color: hsl(var(--counter-glow) / 0.5);
+    box-shadow: 0 0 40px -10px hsl(var(--counter-glow) / 0.3);
+  }
+
+  .counter-pulse {
+    animation: pulse-glow 0.6s ease-out;
+  }
+
+  .counter-globe {
+    @apply text-3xl;
+  }
+
+  .counter-content {
+    @apply flex flex-col items-center;
+  }
+
+  .counter-number {
+    @apply text-3xl font-bold tabular-nums tracking-tight;
+    color: hsl(var(--counter-text));
+    font-family: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+  }
+
+  .counter-number-small {
+    @apply text-xl;
+  }
+
+  .counter-label {
+    @apply text-xs uppercase tracking-widest;
+    color: hsl(var(--counter-sub));
+  }
+
+  .counter-divider {
+    @apply h-10 w-px;
+    background: hsl(var(--counter-sub) / 0.3);
+  }
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 hsl(var(--counter-glow) / 0.5); }
+  100% { box-shadow: 0 0 30px 10px hsl(var(--counter-glow) / 0); }
+}
