@@ -38,6 +38,7 @@ export default function VisitorCounter() {
   const animatedGlobal = useAnimatedNumber(globalCount ?? 0);
   const animatedToday = useAnimatedNumber(todayCount ?? 0);
 
+  // Increment on first load
   useEffect(() => {
     if (hasIncremented) return;
 
@@ -53,7 +54,6 @@ export default function VisitorCounter() {
         }
         setHasIncremented(true);
       } catch {
-        // Offline or error — try to get count without incrementing
         try {
           const { data } = await supabase.rpc("get_visit_counts");
           if (data && data.length > 0) {
@@ -68,6 +68,34 @@ export default function VisitorCounter() {
 
     increment();
   }, [hasIncremented]);
+
+  // Real-time subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel("visitor_counts_realtime")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "visitor_counts" },
+        async () => {
+          const { data } = await supabase.rpc("get_visit_counts");
+          if (data && data.length > 0) {
+            const newGlobal = Number(data[0].global_count);
+            const newToday = Number(data[0].today_count);
+            if (newGlobal !== globalCount || newToday !== todayCount) {
+              setGlobalCount(newGlobal);
+              setTodayCount(newToday);
+              setPulse(true);
+              setTimeout(() => setPulse(false), 600);
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [globalCount, todayCount]);
 
   if (globalCount === null) {
     return (
