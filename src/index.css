@@ -8,26 +8,31 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 220 20% 97%;
+    --foreground: 220 30% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 30% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 30% 10%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 70% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 15% 92%;
+    --secondary-foreground: 220 30% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 15% 92%;
+    --muted-foreground: 220 10% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 160 60% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --counter-glow: 220 70% 50%;
+    --counter-bg: 220 25% 12%;
+    --counter-text: 0 0% 100%;
+    --counter-sub: 220 15% 70%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -102,4 +107,54 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .counter-card {
+    @apply flex items-center gap-4 rounded-2xl px-8 py-5 shadow-xl transition-all duration-300;
+    background: hsl(var(--counter-bg));
+    border: 1px solid hsl(var(--counter-glow) / 0.2);
+  }
+
+  .counter-card:hover {
+    border-color: hsl(var(--counter-glow) / 0.5);
+    box-shadow: 0 0 40px -10px hsl(var(--counter-glow) / 0.3);
+  }
+
+  .counter-pulse {
+    animation: pulse-glow 0.6s ease-out;
+  }
+
+  .counter-globe {
+    @apply text-3xl;
+  }
+
+  .counter-content {
+    @apply flex flex-col items-center;
+  }
+
+  .counter-number {
+    @apply text-3xl font-bold tabular-nums tracking-tight;
+    color: hsl(var(--counter-text));
+    font-family: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+  }
+
+  .counter-number-small {
+    @apply text-xl;
+  }
+
+  .counter-label {
+    @apply text-xs uppercase tracking-widest;
+    color: hsl(var(--counter-sub));
+  }
+
+  .counter-divider {
+    @apply h-10 w-px;
+    background: hsl(var(--counter-sub) / 0.3);
+  }
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 hsl(var(--counter-glow) / 0.5); }
+  100% { box-shadow: 0 0 30px 10px hsl(var(--counter-glow) / 0); }
 }
